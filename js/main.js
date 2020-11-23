@@ -12,7 +12,14 @@ var todoCount = 0;
 
 // todo form submit handler, adds a new todo item to the 'list'
 document.querySelector(".todo-frm").addEventListener("submit", function (evt) {
-  var div, checkbox, label, labelText, todoText;
+  var div,
+    checkbox,
+    label,
+    labelText,
+    todoText,
+    dn, // =>ADDED THIS TO DISPLAY DOWN ARROW
+    up; // =>ADDED THIS TO DISPLAY UP ARROW
+  //let dn = '\u21e9'; //=>https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_document_createelement2
 
   todoText = evt.target.elements["todo-item"].value;
 
@@ -28,17 +35,25 @@ document.querySelector(".todo-frm").addEventListener("submit", function (evt) {
   checkbox = document.createElement("input");
   label = document.createElement("label");
   labelText = document.createTextNode(todoText);
+  dn = document.createElement("span"); // =>ADDED THIS TO DISPLAY DOWN ARROW
+  dn.innerHTML = "\u21e9"; // =>ADDED THIS TO DISPLAY DOWN ARROW
+  up = document.createElement("span"); // =>ADDED THIS TO DISPLAY UP ARROW
+  up.innerHTML = "\u21e7"; // =>ADDED THIS TO DISPLAY UP ARROW
 
   // set appropriate attributes
   checkbox.setAttribute("type", "checkbox");
   checkbox.setAttribute("id", "todo-" + todoCount);
   label.setAttribute("for", "todo-" + todoCount);
   label.setAttribute("contenteditable", "");
+  dn.setAttribute("class", "arrow dn"); // =>ADDED THIS TO DISPLAY DOWN ARROW
+  up.setAttribute("class", "arrow up"); // =>ADDED THIS TO DISPLAY UP ARROW
 
   // build document fragment
   label.appendChild(labelText);
   div.appendChild(checkbox);
   div.appendChild(label);
+  div.appendChild(dn); // =>ADDED THIS TO DISPLAY DOWN ARROW
+  div.appendChild(up); // =>ADDED THIS TO DISPLAY UP ARROW
 
   // add the document fragment to the document for rendering
   todos.appendChild(div);
@@ -54,6 +69,7 @@ document.querySelector(".todo-list").addEventListener("click", function (evt) {
   let targetTodo = evt.target.parentNode;
   let todoList = targetTodo.parentNode;
   let siblingTodo;
+
   if (evt.target.classList.contains("arrow")) {
     // identify the type of arrow (i.e. down or up)
     if (evt.target.classList.contains("dn")) {
